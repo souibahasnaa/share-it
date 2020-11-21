@@ -1,0 +1,17 @@
+{
+    "name": "aymdev/slim-starter",
+    "description": "Preconfigured Slim app including PHP-DI, Twig and Doctrine DBAL.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AymDev",
+            "email": "aymericmayeux@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "App\\": "src/"
+    },
+    "require": {}
+}
