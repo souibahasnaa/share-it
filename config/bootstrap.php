@@ -6,7 +6,8 @@
 
 use DI\Bridge\Slim\Bridge;
 use DI\Container;
-use DI\ContainerBuilder;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -52,4 +53,10 @@ $container->set(Environment::class, function (ContainerInterface $container) {
     $twig->addFunction($linkFunction);
 
     return $twig;
+});
+
+// Database
+$container->set(Connection::class, function () {
+    $connectionParams = include __DIR__ . '/doctrine.php';
+    return DriverManager::getConnection($connectionParams['connection']);
 });
