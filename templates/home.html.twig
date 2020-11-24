@@ -8,4 +8,27 @@
 
 {% block body %}
     <h1>Share It!</h1>
+
+    <form action="{{ link('homepage') }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="fichier">
+                <label class="custom-file-label" for="customFile">Votre fichier</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Envoyer
+        </button>
+    </form>
+{% endblock %}
+
+{% block js %}
+    {# Voir la documentation: https://getbootstrap.com/docs/4.5/components/forms/#file-browser #}
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        });
+    </script>
 {% endblock %}
