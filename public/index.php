@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is the Front Controller
  * HTTP traffic must be redirected to this file
@@ -11,20 +12,19 @@ use Slim\App;
 
 // App configuration
 require_once __DIR__ . '/../config/bootstrap.php';
+$app->setBasePath('/share-it/public');
 
 // Application routes
 $app
     ->map(['GET', 'POST'], '/', [HomeController::class, 'homepage'])
-    ->setName('homepage')
-;
+    ->setName('homepage');
 
 // On peut indiquer des paramètres dans les routes entre accolades: {param}
 // On peut indiquer leur format avec des RegEx: \d+ (constitué d'un ou plusieurs chiffres)
 // Les paramètres seront envoyés en argument de la méthode du controlleur
 $app
     ->get('/download/{id:\d+}', [HomeController::class, 'download'])
-    ->setName('download')
-;
+    ->setName('download');
 
 // Start the application
 $app->run();
