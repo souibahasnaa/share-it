@@ -45,40 +45,52 @@ class FichierManager
 
         // Création d'une instance de Fichier
 
-        return $this->createObject($fichierData['id'], $fichierData['nom'], $fichierData['nom_original'], $fichierData['mime']);
+        return $this->createObject($fichierData['id'], $fichierData['nom'], $fichierData['nom_original'], $fichierData['mime'], $fichierData['compteur']);
     }
 
     /**
      * Enregistrer un nouveau fichier en base de données
      */
 
-    public function createFichier(string $nom, string $nomOriginal, string  $mime): Fichier
+    public function createFichier(string $nom, string $nomOriginal, string  $mime, int $compteur): Fichier
     {
         // Enregister en base de données (voir HomeController:homepage())
 
         $this->connection->insert('fichier', [
             'nom' => $nom,
             'nom_original' => $nomOriginal,
-            'mime' => $mime
+            'mime' => $mime,
+            'compteur' => $compteur
         ]);
         // Récupérer l'identifiant généré du fichier enregistré
         $id = $this->connection->lastInsertId();
 
         // Créer un objet Fichier et le retourner: créer une méthode createObject()
-        return $this->createObject($id, $nom, $nomOriginal, $mime);
+        return $this->createObject($id, $nom, $nomOriginal, $mime, $compteur);
     }
 
     /**
      * Créer un objet Fichier à partir de ses informations
      */
-    private function createObject(int $id, string $nom, string $nomOriginal, string  $mime): Fichier
+    private function createObject(int $id, string $nom, string $nomOriginal, string  $mime, int $compteur): Fichier
     {
         $fichier = new Fichier();
         $fichier
             ->setId($id)
             ->setNom($nom)
             ->setNomOriginal($nomOriginal)
-            ->setMime($mime);
+            ->setMime($mime)
+            ->setCompteur($compteur);
         return $fichier;
+    }
+
+    public function updateCompteur(int $id, int $compteur): int
+    {
+        $this->connection->update(
+            'fichier',
+            ['compteur' => ++$compteur],
+            ['id' => $id]
+        );
+        return $compteur;
     }
 }

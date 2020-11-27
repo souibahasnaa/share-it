@@ -21,6 +21,7 @@ class Fichier
     private ?string $nom = null;
     private ?string $nom_original = null;
     private ?string $mime = null;
+    private ?int $compteur = 0;
 
     public function getId(): ?int
     {
@@ -63,6 +64,17 @@ class Fichier
     public function setMime(string $mime): self
     {
         $this->mime = $mime;
+        return $this;
+    }
+
+    public function getCompteur(): ?int
+    {
+        return $this->compteur;
+    }
+
+    public function setCompteur(int $compteur): self
+    {
+        $this->compteur = $compteur;
         return $this;
     }
 }
