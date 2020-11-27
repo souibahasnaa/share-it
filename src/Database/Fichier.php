@@ -20,6 +20,7 @@ class Fichier
     private ?int $id = null;
     private ?string $nom = null;
     private ?string $nom_original = null;
+    private ?string $mime = null;
 
     public function getId(): ?int
     {
@@ -51,6 +52,17 @@ class Fichier
     public function setNomOriginal(string $nom_original): self
     {
         $this->nom_original = $nom_original;
+        return $this;
+    }
+
+    public function getMime(): ?string
+    {
+        return $this->mime;
+    }
+
+    public function setMime(string $mime): self
+    {
+        $this->mime = $mime;
         return $this;
     }
 }

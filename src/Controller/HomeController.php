@@ -45,7 +45,7 @@ class HomeController extends AbstractController
 
             // Enregistrer les infos du fichieren base de données
 
-            $fichier = $fichierManager->createFichier($nouveauNom, $fichier->getClientFilename());
+            $fichier = $fichierManager->createFichier($nouveauNom, $fichier->getClientFilename(), mime_content_type($uploadService::FILES_DIR . '/' . $nouveauNom));
             // méthode insert()
             /* $connection->insert('fichier', [
                 'nom' => $nouveauNom,
@@ -134,6 +134,7 @@ class HomeController extends AbstractController
         }
         $nomOriginalFichier = $fichier->getNomOriginal();
         header('Content-Disposition: attachment; filename="' . basename($nomOriginalFichier) . '"');
+        header('Content-Type: ' . $fichier->getMime() . ';');
 
         // affichage du fichier 
         readfile($uploadService::FILES_DIR . '/' . $nomFichier);
