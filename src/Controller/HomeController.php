@@ -104,9 +104,39 @@ class HomeController extends AbstractController
         return $this->template($response, 'file_error.html.twig');
     }
 
-    public function download(ResponseInterface $response, int $id)
+    //public const FILES_DIR = __DIR__ . '/../../files';
+
+    public function download(ResponseInterface $response, int $id, Connection $connection, FichierManager $fichierManager, UploadService $uploadService)
     {
-        $response->getBody()->write(sprintf('Identifiant: %d', $id));
-        return $response;
+        //$response->getBody()->write(sprintf('Identifiant: %d', $id));
+
+        /*$var = $connection->fetchOne(sprintf('SELECT nom FROM fichier WHERE id = %d', $id));
+        if ($var === false) {
+            return $this->redirect('file-error');
+        } elseif (!file_exists(self::FILES_DIR . '/' . $var)) {
+            return $this->redirect('file-error');
+        } else {
+            $lien = "http://$_SERVER[HTTP_HOST]" . '/share-it/files/' . $var;
+            $response->getBody()->write(sprintf('<a href="%s">Telecharger</a>', $lien));
+        }
+
+        return $response;*/
+
+
+        $fichier = $fichierManager->getById($id);
+        if ($fichier === null) {
+            return $this->redirect('file-error');
+        }
+
+        $nomFichier = $fichier->getNom();
+        if (!file_exists($uploadService::FILES_DIR . '/' . $nomFichier)) {
+            return $this->redirect('file-error');
+        }
+        $nomOriginalFichier = $fichier->getNomOriginal();
+        header('Content-Disposition: attachment; filename="' . basename($nomOriginalFichier) . '"');
+
+        // affichage du fichier 
+        readfile($uploadService::FILES_DIR . '/' . $nomFichier);
+        exit;
     }
 }
