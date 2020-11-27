@@ -5,8 +5,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "AymDev",
-      "email": "aymericmayeux@gmail.com"
+      "name": "Hasnaa",
+      "email": "souibahasnaa@gmail.com"
     }
   ],
   "minimum-stability": "stable",
@@ -24,6 +24,7 @@
     "slim/psr7": "^1.2",
     "twig/twig": "^3.1",
     "doctrine/dbal": "^3.0",
-    "filp/whoops": "^2.9"
+    "filp/whoops": "^2.9",
+    "selective/basepath": "^1.0"
   }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Database\Fichier;
+use App\Database\FichierManager;
 use App\File\UploadService;
 use Doctrine\DBAL\Connection;
 use Psr\Http\Message\ResponseInterface;
@@ -14,7 +16,7 @@ class HomeController extends AbstractController
         ResponseInterface $response,
         ServerRequestInterface $request,
         UploadService $uploadService,
-        Connection $connection
+        FichierManager $fichierManager
     ) {
         /**
          * Récupération du fichier envoyé par le formulaire
@@ -43,11 +45,12 @@ class HomeController extends AbstractController
 
             // Enregistrer les infos du fichieren base de données
 
+            $fichier = $fichierManager->createFichier($nouveauNom, $fichier->getClientFilename());
             // méthode insert()
-            $connection->insert('fichier', [
+            /* $connection->insert('fichier', [
                 'nom' => $nouveauNom,
                 'nom_original' => $fichier->getClientFilename(),
-            ]);
+            ]);*/
 
             // méthode executeStatement()
             //$connection->executeStatement('INSERT INTO fichier (nom, nom_original) VALUES (:nom, :nom_original)', [
@@ -71,15 +74,34 @@ class HomeController extends AbstractController
                 ]);
             $queryBuilder->execute();*/
 
+            // Redirection vers la page de succès
 
-
+            return $this->redirect('success', [
+                'id' => $fichier->getId()
+            ]);
 
             // Afficher un message à l'utilisateur 
 
-
-
         }
+
+
         return $this->template($response, 'home.html.twig');
+    }
+
+    public function success(ResponseInterface $response, int $id, FichierManager $fichierManager)
+    {
+        $fichier = $fichierManager->getById($id);
+        if ($fichier === null) {
+            return $this->redirect('file-error');
+        }
+        return $this->template($response, 'success.html.twig', [
+            'fichier' => $fichier
+        ]);
+    }
+
+    public function fileError(ResponseInterface $response)
+    {
+        return $this->template($response, 'file_error.html.twig');
     }
 
     public function download(ResponseInterface $response, int $id)

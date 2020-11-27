@@ -40,9 +40,11 @@ $container->set(RouteParserInterface::class, function () use ($app) {
 
 // PSR-7 response factories
 $container->set(
-    ResponseFactoryInterface::class, function () {
-    return new ResponseFactory();
-});
+    ResponseFactoryInterface::class,
+    function () {
+        return new ResponseFactory();
+    }
+);
 
 $container->set(StreamFactoryInterface::class, function () {
     return new StreamFactory();
